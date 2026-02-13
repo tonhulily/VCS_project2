@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         // Ánh xạ Button từ layout
         val btnDeviceInfo = findViewById<Button>(R.id.btnDeviceInfo)
-        val btnSearchApp = findViewById<Button>(R.id.btnSearchApp)
+        val btnSearchApp = findViewById<Button>(R.id.btnAppSearch)
 
         // Button 1: Thông tin thiết bị
         btnDeviceInfo.setOnClickListener {
