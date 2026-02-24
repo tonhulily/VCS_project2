@@ -7,35 +7,52 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient">
 
-    <TextView
-        android:text="Tìm Kiếm Ứng Dụng"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginBottom="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_back_circle"
+                android:tint="@android:color/white"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Tìm kiếm ứng dụng"
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
 
     <EditText
         android:id="@+id/edtSearch"
         android:hint="Nhập tên ứng dụng..."
         android:textColor="@color/textPrimary"
+        android:textColorHint="@color/white"
         android:background="@drawable/button_gradient_primary"
         android:padding="14dp"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/btnSearch"
-        android:text="Tìm Kiếm"
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:text="Không tìm thấy ứng dụng"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:background="@drawable/button_gradient_primary"
-        android:elevation="8dp"
-        android:padding="14dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <ListView
