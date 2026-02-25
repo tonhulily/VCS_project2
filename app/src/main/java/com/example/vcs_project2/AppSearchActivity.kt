@@ -1,12 +1,14 @@
 package com.example.vcs_project2
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ApplicationInfo
-import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.PointerIcon
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -26,19 +28,39 @@ class AppSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_search)
 
-        edtSearch = findViewById(R.id.edtSearch)
-        listViewApps = findViewById(R.id.listViewApps)
-        tvEmpty = findViewById(R.id.tvEmpty)
-
-        installedApps = loadLaunchableApps()
-
+        initViews()
+        installedApps = loadApps()
         adapter = AppAdapter()
         listViewApps.adapter = adapter
 
         listViewApps.setOnItemClickListener { _, _, position, _ ->
             openApp(resultList[position])
         }
+        searchListener()
+        findViewById<ImageView>(R.id.btnBack).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+    private fun initViews() {
+        edtSearch = findViewById(R.id.edtSearch)
+        listViewApps = findViewById(R.id.listViewApps)
+        tvEmpty = findViewById(R.id.tvEmpty)
+    }
+    private fun loadApps(): List<ApplicationInfo> {
+        val intent = Intent(Intent.ACTION_MAIN, null).apply {
+            addCategory(Intent.CATEGORY_LAUNCHER)
+        }
 
+        return packageManager.queryIntentActivities(intent, 0)
+            .map { it.activityInfo.applicationInfo }
+            .distinctBy { it.packageName }
+            .sortedBy { packageManager.getApplicationLabel(it).toString().lowercase() }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun searchListener() {
         edtSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -47,36 +69,33 @@ class AppSearchActivity : AppCompatActivity() {
             }
         })
 
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        edtSearch.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = edtSearch.compoundDrawables[2]
+                if (drawableEnd != null) {
+                    if (event.rawX >= (edtSearch.right - edtSearch.compoundDrawables[2].bounds.width() - edtSearch.paddingEnd)) {
+                        searchApps(edtSearch.text.toString())
+                        v.performClick()
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
+        }
 
-        btnBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        edtSearch.setOnHoverListener { v, event ->
+            val drawableRight = 2
+            val drawable = edtSearch.compoundDrawables[drawableRight]
+
+            if (drawable != null && event.x >= (edtSearch.width - edtSearch.paddingEnd - drawable.bounds.width())) {
+                v.pointerIcon = PointerIcon.getSystemIcon(this, PointerIcon.TYPE_HAND)
+            } else {
+                v.pointerIcon = PointerIcon.getSystemIcon(this, PointerIcon.TYPE_TEXT)
+            }
+            false
         }
     }
-
-    private fun loadLaunchableApps(): List<ApplicationInfo> {
-
-        val intent = Intent(Intent.ACTION_MAIN, null)
-        intent.addCategory(Intent.CATEGORY_LAUNCHER)
-
-        val resolveInfos: List<ResolveInfo> =
-            packageManager.queryIntentActivities(intent, 0)
-
-        val apps = resolveInfos.map {
-            it.activityInfo.applicationInfo
-        }
-
-        return apps.sortedBy {
-            packageManager.getApplicationLabel(it)
-                .toString()
-                .lowercase()
-        }
-    }
-
     private fun searchApps(keywordInput: String) {
-
         val keyword = keywordInput.trim().lowercase()
         resultList.clear()
 
@@ -86,71 +105,56 @@ class AppSearchActivity : AppCompatActivity() {
             return
         }
 
-        val filtered = installedApps.filter { app ->
-            val appName = packageManager
-                .getApplicationLabel(app)
-                .toString()
-                .lowercase()
-
-            appName.contains(keyword)
+        val startsWithList = installedApps.filter { app ->
+            packageManager.getApplicationLabel(app).toString().lowercase().startsWith(keyword)
         }
 
-        resultList.addAll(filtered)
+        val containsList = installedApps.filter { app ->
+            val appName = packageManager.getApplicationLabel(app).toString().lowercase()
+            appName.contains(keyword) && !appName.startsWith(keyword)
+        }
+
+        resultList.addAll(startsWithList)
+        resultList.addAll(containsList)
 
         adapter.notifyDataSetChanged()
-
-        tvEmpty.visibility =
-            if (resultList.isEmpty()) View.VISIBLE else View.GONE
+        tvEmpty.visibility = if (resultList.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun openApp(app: ApplicationInfo) {
-
-        val intent = packageManager
-            .getLaunchIntentForPackage(app.packageName)
-
+        val intent = packageManager.getLaunchIntentForPackage(app.packageName)
         if (intent != null) {
             startActivity(intent)
         } else {
-            Toast.makeText(
-                this,
-                "Không thể mở ứng dụng này",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Không thể mở ứng dụng này", Toast.LENGTH_SHORT).show()
         }
     }
 
+    private class ViewHolder(view: View) {
+        val imgIcon: ImageView = view.findViewById(R.id.imgIcon)
+        val tvName: TextView = view.findViewById(R.id.tvName)
+    }
     inner class AppAdapter : BaseAdapter() {
-
         override fun getCount(): Int = resultList.size
-
         override fun getItem(position: Int): Any = resultList[position]
-
         override fun getItemId(position: Int): Long = position.toLong()
 
-        override fun getView(
-            position: Int,
-            convertView: View?,
-            parent: ViewGroup?
-        ): View {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val view: View
+            val holder: ViewHolder
 
-            val view = convertView ?: LayoutInflater
-                .from(this@AppSearchActivity)
-                .inflate(R.layout.item_app, parent, false)
-
-            val imgIcon = view.findViewById<ImageView>(R.id.imgIcon)
-            val tvName = view.findViewById<TextView>(R.id.tvName)
+            if (convertView == null) {
+                view = LayoutInflater.from(this@AppSearchActivity).inflate(R.layout.item_app, parent, false)
+                holder = ViewHolder(view)
+                view.tag = holder
+            } else {
+                view = convertView
+                holder = view.tag as ViewHolder
+            }
 
             val app = resultList[position]
-
-            val appName = packageManager
-                .getApplicationLabel(app)
-                .toString()
-
-            imgIcon.setImageDrawable(
-                packageManager.getApplicationIcon(app)
-            )
-
-            tvName.text = appName
+            holder.tvName.text = packageManager.getApplicationLabel(app).toString()
+            holder.imgIcon.setImageDrawable(packageManager.getApplicationIcon(app))
 
             return view
         }

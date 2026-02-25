@@ -1,9 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
+    android:background="@drawable/bg"
+    android:backgroundTint="#40000000"
+    android:backgroundTintMode="src_over"
     android:padding="24dp">
 
     <TextView
@@ -15,25 +18,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDeviceInfo"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:text="THÔNG TIN THIẾT BỊ"
+	android:textSize="16sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:background="@drawable/button_gradient_primary"
+        app:backgroundTint="@null"
+        app:icon="@android:drawable/ic_menu_info_details"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconTint="#FFFFFF"
         android:elevation="8dp"
         android:layout_marginBottom="20dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAppSearch"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:text="TÌM KIẾM ỨNG DỤNG"
+	android:textSize="16sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:background="@drawable/button_gradient_primary"
+        app:backgroundTint="@null"
+        app:icon="@android:drawable/ic_menu_search"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconTint="#FFFFFF"
         android:elevation="8dp"/>
 
 </LinearLayout>
