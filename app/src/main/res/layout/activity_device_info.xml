@@ -18,38 +18,30 @@
             android:layout_marginBottom="20dp">
             <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+		android:padding="10dp"
                 android:src="@drawable/ic_back_circle"
                 app:tint="@android:color/white"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"
+		android:contentDescription="@string/back"  />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:text="@string/device_info_title"
+                android:textSize="22sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-                
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@android:drawable/ic_menu_info_details"
-                    app:tint="@android:color/white"
-                    android:layout_marginEnd="8dp"/>
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Thông Tin Thiết Bị"
-                    android:textSize="22sp"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                app:drawableStartCompat="@android:drawable/ic_menu_info_details"
+                android:drawablePadding="8dp"
+                app:drawableTint="@android:color/white"/>
 
         </RelativeLayout>
 
@@ -62,12 +54,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loại máy"
+                android:text="@string/device_type"
                 android:textColor="#666666"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
             <TextView
-                android:id="@+id/tvModel"
+                android:id="@+id/model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#212121"
@@ -78,12 +70,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tên máy"
+                android:text="@string/device_name"
                 android:textColor="#666666"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
             <TextView
-                android:id="@+id/tvDevice"
+                android:id="@+id/device"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#212121"
@@ -94,12 +86,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phiên bản Android"
+                android:text="@string/android_version"
                 android:textColor="#666666"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
             <TextView
-                android:id="@+id/tvVersion"
+                android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#212121"

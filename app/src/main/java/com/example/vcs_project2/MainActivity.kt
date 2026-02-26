@@ -2,7 +2,7 @@ package com.example.vcs_project2
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -11,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnDeviceInfo = findViewById<Button>(R.id.btnDeviceInfo)
-        val btnSearchApp = findViewById<Button>(R.id.btnAppSearch)
+        val btnDeviceInfo = findViewById<MaterialButton>(R.id.btnDeviceInfo)
+        val btnSearchApp = findViewById<MaterialButton>(R.id.btnAppSearch)
 
         btnDeviceInfo.setOnClickListener {
             val intent = Intent(this, DeviceInfoActivity::class.java)

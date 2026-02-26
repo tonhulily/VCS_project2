@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">VCS_project2</string>
+    <string name="btn_device_info">THÔNG TIN THIẾT BỊ</string>
+    <string name="btn_app_search">TÌM KIẾM ỨNG DỤNG</string>
+    <string name="back">Quay lại</string>
+    <string name="device_info_title">Thông tin thiết bị</string>
+    <string name="device_type">Loại máy</string>
+    <string name="device_name">Tên máy</string>
+    <string name="android_version">Phiên bản Android</string>
+    <string name="search_title">Tìm kiếm ứng dụng</string>
+    <string name="search_hint">Nhập tên ứng dụng...</string>
+    <string name="empty_result">Không tìm thấy ứng dụng</string>
 </resources>

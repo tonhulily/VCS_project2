@@ -18,7 +18,7 @@ class AppSearchActivity : AppCompatActivity() {
 
     private lateinit var edtSearch: EditText
     private lateinit var listViewApps: ListView
-    private lateinit var tvEmpty: TextView
+    private lateinit var emptyResult: TextView
 
     private lateinit var installedApps: List<ApplicationInfo>
     private val resultList = mutableListOf<ApplicationInfo>()
@@ -46,7 +46,7 @@ class AppSearchActivity : AppCompatActivity() {
     private fun initViews() {
         edtSearch = findViewById(R.id.edtSearch)
         listViewApps = findViewById(R.id.listViewApps)
-        tvEmpty = findViewById(R.id.tvEmpty)
+        emptyResult = findViewById(R.id.empty_result)
     }
     private fun loadApps(): List<ApplicationInfo> {
         val intent = Intent(Intent.ACTION_MAIN, null).apply {
@@ -100,7 +100,7 @@ class AppSearchActivity : AppCompatActivity() {
         resultList.clear()
 
         if (keyword.isEmpty()) {
-            tvEmpty.visibility = View.GONE
+            emptyResult.visibility = View.GONE
             adapter.notifyDataSetChanged()
             return
         }
@@ -118,7 +118,7 @@ class AppSearchActivity : AppCompatActivity() {
         resultList.addAll(containsList)
 
         adapter.notifyDataSetChanged()
-        tvEmpty.visibility = if (resultList.isEmpty()) View.VISIBLE else View.GONE
+        emptyResult.visibility = if (resultList.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun openApp(app: ApplicationInfo) {
