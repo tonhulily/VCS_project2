@@ -8,7 +8,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.PointerIcon
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -38,8 +37,6 @@ class AppSearchActivity : AppCompatActivity() {
         }
         searchListener()
         findViewById<ImageView>(R.id.btnBack).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
     }
@@ -79,18 +76,6 @@ class AppSearchActivity : AppCompatActivity() {
                         return@setOnTouchListener true
                     }
                 }
-            }
-            false
-        }
-
-        edtSearch.setOnHoverListener { v, event ->
-            val drawableRight = 2
-            val drawable = edtSearch.compoundDrawables[drawableRight]
-
-            if (drawable != null && event.x >= (edtSearch.width - edtSearch.paddingEnd - drawable.bounds.width())) {
-                v.pointerIcon = PointerIcon.getSystemIcon(this, PointerIcon.TYPE_HAND)
-            } else {
-                v.pointerIcon = PointerIcon.getSystemIcon(this, PointerIcon.TYPE_TEXT)
             }
             false
         }

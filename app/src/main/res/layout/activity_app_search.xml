@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    android:backgroundTint="#30000000"
+    android:backgroundTint="#40000000"
     android:backgroundTintMode="src_over">
 
     <RelativeLayout
@@ -45,7 +45,6 @@
     <EditText
         android:id="@+id/edtSearch"
         android:hint="@string/search_hint"
-	android:autofillHints="username"
 	android:inputType="text"
         android:textColor="@color/textPrimary"
         android:textColorHint="@color/white"
@@ -53,10 +52,10 @@
         android:padding="14dp"
 	android:paddingStart="20dp"
         android:paddingEnd="20dp"
+	android:importantForAutofill="no"
         android:drawableEnd="@android:drawable/ic_menu_search"
         android:drawableTint="@android:color/white"
         android:drawablePadding="10dp"
-	android:pointerIcon="hand"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
