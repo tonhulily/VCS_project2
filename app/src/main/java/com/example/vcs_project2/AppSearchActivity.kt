@@ -31,6 +31,7 @@ class AppSearchActivity : AppCompatActivity() {
         installedApps = loadApps()
         adapter = AppAdapter()
         listViewApps.adapter = adapter
+        searchApps("")
 
         listViewApps.setOnItemClickListener { _, _, position, _ ->
             openApp(resultList[position])
@@ -85,6 +86,7 @@ class AppSearchActivity : AppCompatActivity() {
         resultList.clear()
 
         if (keyword.isEmpty()) {
+            resultList.addAll(installedApps)
             emptyResult.visibility = View.GONE
             adapter.notifyDataSetChanged()
             return
